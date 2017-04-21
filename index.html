@@ -461,7 +461,7 @@
         
           
             <h3 id="动机"><a href="#动机" class="headerlink" title="动机"></a>动机</h3><p>开明的应用设计和代码书写部分应当关注应用在发展和维护阶段中频繁发生的变化。通常，给应用添加一个新功能的时候会涉及到很多改动。应尽量少地在已有代码中做改动，因为已有代码一般都已通过单元测试，在其中做的改动可能莫名其妙地就影响到现有功能。</p>
-<p><strong>开放 - 封闭原则</strong>  强调设计和代码编写应当以在现有代码上改动最小的方式来完成新功能的添加。软件设计应该在某种程度上允许添加新功能类的同时，尽量不去改动现有代码。</p>
+<p><strong>开放 - 封闭原则</strong>  强调设计和代码编写应当以在现有代码上改动最小的方式来完成新功能的添加。软件设计应尽可能在添加新功能类的时候不去改动现有代码。</p>
 <h3 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h3><p>软件实体，如类、模块和函数，应当<strong>对扩展开放</strong>，但<strong>对修改关闭</strong>。</p>
 <blockquote>
 <p>个人理解：对使用方的修改关闭， 对提供方的功能扩展开放</p>
@@ -631,6 +631,22 @@
 <p>派生类型必须能被其基类完全代替</p>
 </blockquote>
 <p>此原则是在开放-关闭原则在行为方面的延伸，其意味着我们必须确新的派生类扩展基类的同时不能修改其行为。新创建的派生类应该能够替换基类而不用修改任何代码。<br>里氏替换原则是 Barbara Liskov 于1987年在 “面向对象编程语言系统和应用程序” 大会上提出的, 具体可看 <a href="http://dl.acm.org/citation.cfm?id=62141" target="_blank" rel="external">data abstraction and hiearchy</a>。</p>
+<h2 id="如何应用设计原则-摘自《面向对象葵花宝典》"><a href="#如何应用设计原则-摘自《面向对象葵花宝典》" class="headerlink" title="如何应用设计原则 摘自《面向对象葵花宝典》"></a>如何应用设计原则 摘自《面向对象葵花宝典》</h2><h3 id="SRP-原则：-用于类的设计"><a href="#SRP-原则：-用于类的设计" class="headerlink" title="SRP 原则： 用于类的设计"></a>SRP 原则： 用于类的设计</h3><blockquote>
+<p>当我们想出一个类，或者设计出一个类的原型后，使用 SRP 原则核对类的设计是否符合 SRP 要求。</p>
+</blockquote>
+<h3 id="OCP-原则：-总的指导思想"><a href="#OCP-原则：-总的指导思想" class="headerlink" title="OCP 原则： 总的指导思想"></a>OCP 原则： 总的指导思想</h3><blockquote>
+<p>OCP 原则是一个总的指导思想，在面向对象的设计中，如果能够符合 LSP/ISP/DIP 原则，一般情况下就能够符合 OCP 原则了。</p>
+<p>除了在面向对象的软件设计中应用外，OCP 也可以用于指导系统架构设计，例如常见的 CORBA、COM 协议，其实可都可以认为是 OCP 原则的具体应用和实现。</p>
+</blockquote>
+<h3 id="LSP-原则：-用于指导类继承的设计"><a href="#LSP-原则：-用于指导类继承的设计" class="headerlink" title="LSP 原则： 用于指导类继承的设计"></a>LSP 原则： 用于指导类继承的设计</h3><blockquote>
+<p>当我摸设计类之间的继承关系时，使用 LSP 原则来判断这种继承关系是否符合 LSP 要求。</p>
+</blockquote>
+<h3 id="ISP-原则：-用于指导接口的设计"><a href="#ISP-原则：-用于指导接口的设计" class="headerlink" title="ISP 原则： 用于指导接口的设计"></a>ISP 原则： 用于指导接口的设计</h3><blockquote>
+<p>ISP 原则可以认为是　SRP 原则的一个变种，本质上是和 SRP 的思想是一样的。 SRP 用于指导类的设计，而 ISP 用于指导接口的设计</p>
+</blockquote>
+<h3 id="DIP-原则：-用于指导如何抽象"><a href="#DIP-原则：-用于指导如何抽象" class="headerlink" title="DIP 原则： 用于指导如何抽象"></a>DIP 原则： 用于指导如何抽象</h3><blockquote>
+<p>当我们设计类之间的依赖关系时，可以使用 DIP 原则来判断这种依赖是否符合 DIP 原则二。 DIP 原则 和 LSP 原则相辅相成： DIP 原则用于指导抽象出接口或者抽象类，而 LSP 原则用于指导从接口或者抽象类派生出新的子类。</p>
+</blockquote>
 
           
         
