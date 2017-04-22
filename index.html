@@ -466,13 +466,25 @@
 <blockquote>
 <p>个人理解：对使用方的修改关闭， 对提供方的功能扩展开放</p>
 </blockquote>
-<h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><p>以下是一个违背 OCP 的例子。 它实现了绘制各种图形的<code>graph editor</code>。 显然，<code>GraphicEditor</code> 没有遵循 OCP ，因为每次添加一个 <code>shape</code> 子类，都要对其进行修改。这有以下几个缺点：</p>
+<h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><p>以下是一个违背 OCP 的例子。 它实现了绘制各种图形的 <code>graph editor</code>。 显然，<code>GraphicEditor</code> 没有遵循 OCP ，因为每次添加一个 <code>shape</code> 子类，都要对其进行修改。这有以下几个缺点：</p>
 <ul>
-<li>每次添加新的 <code>shape</code> ， <code>GraphicEditor</code> 的单元测试都要重新做</li>
-<li>每次添加新的 <code>shape</code>类所需时间都比较多，因为开发人员需要理解<code>GraphicEditor</code> 的内部逻辑</li>
-<li>尽管新添加的 <code>shape</code>能很好的工作，但它可能会意外地影响现有功能</li>
+<li>每次添加新的 <code>shape</code> 子类， <code>GraphicEditor</code> 的单元测试都要重新做</li>
+<li>每次添加新的 <code>shape</code> 子类所需时间都比较多，因为开发人员需要理解 <code>GraphicEditor</code> 的内部逻辑</li>
+<li>尽管新添加的 <code>shape</code> 能很好的工作，但它可能会意外地影响现有功能</li>
 </ul>
 <img src="/2017/04/19/open-close-principle/ocp-bad-example.png" alt="ocp-bad-example.png" title="">
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">// Open-Close Principle - Bad Example</div><div class="line">class GraphicEditor&#123;</div><div class="line">	public void drawShape(Shape s)&#123;</div><div class="line">		if(s.m_type == 1)</div><div class="line">			drawRectangle(s);</div><div class="line">		else if(s.m_type == 2)</div><div class="line">			drawCircle(s);</div><div class="line">	&#125;</div><div class="line">	public void drawRectangle(Rectangle r)&#123;...&#125;</div><div class="line">	public void drawCircle(Circle r)&#123;...&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">class Shape&#123;</div><div class="line">	int m_type;</div><div class="line">&#125;</div><div class="line"></div><div class="line">class Rectangle extends Shape&#123;</div><div class="line">	Rectangle()&#123;</div><div class="line">		super.m_type = 1;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">class Circle extends Shape&#123;</div><div class="line">	Circle()&#123;</div><div class="line">		super.m_type = 2;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>以下是一个遵循 OCP 要求的例子。 在新的设计中，我们在 <code>GraphicEditor</code> 中使用抽象的 <code>draw()</code> 方法，而将具体实现移至派生类实例中。通过使用 OCP ，我们就避免了上述例子中的问题，当添加新 <code>shape</code> 子类的时候， 不需要对<code>GraphicEditor</code> 进行修改。</p>
+<ul>
+<li>不需要额外的单元测试</li>
+<li>不需要知晓 <code>GraphicEditor</code> 的源码</li>
+<li>由于具体的绘图代码移到具体的 <code>shape</code> 实现子类中，新功能添加进来的时候免除了影响有功能的风险</li>
+</ul>
+<img src="/2017/04/19/open-close-principle/ocp-good-example.png" alt="ocp-good-example.png" title="">
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">// Open-Close Principle - Good example</div><div class="line">class GraphicEditor&#123;</div><div class="line">	public void drawShape(Shape s)&#123;</div><div class="line">		s.draw();</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">class Shape&#123;</div><div class="line">	abstract void draw();</div><div class="line">&#125;</div><div class="line"></div><div class="line">class Rectangle extends Shape&#123;</div><div class="line">	@Override</div><div class="line">	public void draw()&#123;</div><div class="line">		// draw Rectangle</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">class Circle extends Shape&#123;</div><div class="line">	@Override</div><div class="line">	public void draw()&#123;</div><div class="line">		// draw Circle;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>和其他原则一样 OCP , 也只是一个原则。构思一个灵活的设计需要耗费额外的时间和精力，这会引入更高层次的抽象，而抽象则会提高代码的复杂度。所以此原则应该应用于最可能发生变化的地方。</p>
+<p>有很多设计模式可以帮助我们在不改动现有代码的情况下进行扩展。比如说装饰者模式可以帮助我们遵循 OCP 原则。工厂方法或观察者模式也可以用于将应用程序设计成易于调整，同时最小限度地对原有代码进行改动。</p>
+
           
         
       
